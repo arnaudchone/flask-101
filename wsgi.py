@@ -56,6 +56,15 @@ def create_product():
     body = request.get_json()
     next_val = counter.next()
     PRODUCTS_MAP[next_val] = {'id': next_val, 'name': body['name']}
-    return ('', 200)
+    return (jsonify(PRODUCTS_MAP[next_val]), 202)
+
+@app.route('/api/v1/products/<int:product_id>', methods=['PATCH'])
+def upd_product(product_id):
+    if product_id in PRODUCTS_MAP:
+        body = request.get_json()
+        PRODUCTS_MAP[product_id] = {'id': product_id, 'name': body['name']}
+        return (jsonify(PRODUCTS_MAP[product_id]), 204)
+
+
 
 
