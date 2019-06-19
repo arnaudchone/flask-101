@@ -14,6 +14,16 @@ PRODUCTS_MAP = {
     for item in PRODUCTS
 }
 
+class Counter:
+    def __init__(self):
+        self.id = 3
+
+    def next(self):
+        self.id += 1
+        return self.id
+
+counter = Counter()
+
 @app.route('/')
 def hello():
     return "Hello Dude!"
@@ -37,7 +47,15 @@ def get_product(product_id):
 def del_product(product_id):
     if product_id in PRODUCTS_MAP:
         del PRODUCTS_MAP[product_id]
-        return ('', 204)
+        return ('Deleted product', 204)
     else:
         return ('Product not found', 404)
+
+@app.route('/api/v1/products/', methods=['POST'])
+def create_product():
+    body = request.get_json()
+    next_val = counter.next()
+    PRODUCTS_MAP[next_val] = {'id': next_val, 'name': body['name']}
+    return ('', 200)
+
 
