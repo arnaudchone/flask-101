@@ -16,6 +16,7 @@ class TestViews(TestCase):
     def test_products_get(self):
         response = self.client.get("/api/v1/products/1")
         products = response.json
+        self.assertIsInstance(products, list)
         self.assertEquals(products[1], Skello) # 2 is not a mistake here.
 
 
